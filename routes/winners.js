@@ -1,6 +1,6 @@
 // routes/winners.js
 const express = require('express');
-const { addWinner, getWinners, deleteWinner } = require('../controllers/winnerController');
+const { addWinner, getWinners, deleteWinner } = require('../controllers/winnerController.js');
 const router = express.Router();
 
 router.post('/add', addWinner);
