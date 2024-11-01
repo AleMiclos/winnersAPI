@@ -1,5 +1,5 @@
 // controllers/winnerController.js
-const Winner = require('./models/Winner.js');
+const Winner = require('../models/Winner');
 
 exports.addWinner = async (req, res) => {
   try {
