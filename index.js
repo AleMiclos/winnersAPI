@@ -4,8 +4,13 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const winnerRoutes = require('./routes/winners');
+const uri = process.env.MONGODB_URI
 
 const app = express();
+
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log("MongoDB conectado"))
+  .catch((err) => console.error("Erro de conexão com MongoDB:", err));
 
 app.use(express.json());
 app.use(cors());
