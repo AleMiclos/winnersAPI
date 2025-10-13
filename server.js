@@ -13,7 +13,8 @@ const PORT = process.env.PORT || 3000;
 const allowedOrigins = [
     'https://reflexogame.vercel.app',
     'https://reactiongamefsl.vercel.app',
-    'https://spaceshipfsl.vercel.app'
+    'https://spaceshipfsl.vercel.app',
+    'http://127.0.0.1:61035'
     // Você pode adicionar seu localhost aqui para testes locais, se precisar
     // 'http://127.0.0.1:5500', 
     // 'http://localhost:54246' 
