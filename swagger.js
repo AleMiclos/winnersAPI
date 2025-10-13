@@ -10,7 +10,7 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: "https://winnersapi.onrender.com", 
+        url: "http://localhost:3000/api", 
       },
     ],
   },
