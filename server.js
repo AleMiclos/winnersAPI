@@ -7,9 +7,36 @@ const apiRoutes = require('./routes/api');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// --- CONFIGURAÇÃO DE CORS ESPECÍFICA ---
+
+// 1. Lista de domínios permitidos
+const allowedOrigins = [
+    'https://reflexogame.vercel.app',
+    'https://reactiongamefsl.vercel.app',
+    'https://spaceshipfsl.vercel.app'
+    // Você pode adicionar seu localhost aqui para testes locais, se precisar
+    // 'http://127.0.0.1:5500', 
+    // 'http://localhost:54246' 
+];
+
+// 2. Opções do CORS
+const corsOptions = {
+    origin: function (origin, callback) {
+        // Permite requisições sem 'origin' (ex: Postman, mobile apps) E requisições da sua lista.
+        if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            callback(new Error('Acesso não permitido pela política de CORS'));
+        }
+    }
+};
+
+// --- FIM DA CONFIGURAÇÃO DE CORS ---
+
+
 // Middlewares
-app.use(cors()); // Permite requisições de outras origens (seu front-end)
-app.use(express.json()); // Permite que o servidor entenda JSON
+app.use(cors(corsOptions)); // 3. APLICA AS OPÇÕES DE CORS AQUI
+app.use(express.json());
 
 // Conexão com o Banco de Dados
 mongoose.connect(process.env.MONGODB_URI)
