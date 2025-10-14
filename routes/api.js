@@ -57,15 +57,17 @@ router.get('/stats', async (req, res) => {
         const stats = await GameData.aggregate([
             {
                 $group: {
-                    _id: '$gameName', // Agrupa os resultados pelo nome do jogo
-                    averageRating: { $avg: '$rating' } // Calcula a média do campo 'rating'
+                    _id: '$gameName', // Agrupa pelo nome do jogo
+                    averageRating: { $avg: '$rating' }, // Calcula a média das notas
+                    totalRatings: { $sum: 1 } // NOVO: Soma 1 para cada documento no grupo (conta o total)
                 }
             },
             {
-                $project: { // Renomeia o campo _id para algo mais amigável
+                $project: { // Formata a saída
                     _id: 0,
                     gameName: '$_id',
-                    averageRating: 1
+                    averageRating: 1,
+                    totalRatings: 1 // Inclui o novo campo no resultado
                 }
             }
         ]);
@@ -75,5 +77,6 @@ router.get('/stats', async (req, res) => {
         res.status(500).json({ message: 'Erro no servidor ao buscar estatísticas.' });
     }
 });
+
 
 module.exports = router;
