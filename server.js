@@ -21,14 +21,7 @@ const allowedOrigins = [
 
 // 2. Opções do CORS
 const corsOptions = {
-    origin: function (origin, callback) {
-        // Permite requisições sem 'origin' (ex: Postman, mobile apps) E requisições da sua lista.
-        if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-            callback(null, true);
-        } else {
-            callback(new Error('Acesso não permitido pela política de CORS'));
-        }
-    }
+    origin: '*'
 };
 
 // --- FIM DA CONFIGURAÇÃO DE CORS ---
