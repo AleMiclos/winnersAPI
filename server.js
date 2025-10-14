@@ -16,7 +16,7 @@ const allowedOrigins = [
     'https://spaceshipfsl.vercel.app',
     'http://127.0.0.1:61035',
     'http://localhost:3000',
-    'https://tabela-react-js.vercel.app/'
+    'https://tabela-react-js.vercel.app'
 ];
 
 // 2. Opções do CORS
