@@ -52,4 +52,28 @@ router.get('/leaderboard/:gameName', async (req, res) => {
     }
 });
 
+router.get('/stats', async (req, res) => {
+    try {
+        const stats = await GameData.aggregate([
+            {
+                $group: {
+                    _id: '$gameName', // Agrupa os resultados pelo nome do jogo
+                    averageRating: { $avg: '$rating' } // Calcula a média do campo 'rating'
+                }
+            },
+            {
+                $project: { // Renomeia o campo _id para algo mais amigável
+                    _id: 0,
+                    gameName: '$_id',
+                    averageRating: 1
+                }
+            }
+        ]);
+        res.status(200).json(stats);
+    } catch (error) {
+        console.error("Erro ao buscar estatísticas:", error);
+        res.status(500).json({ message: 'Erro no servidor ao buscar estatísticas.' });
+    }
+});
+
 module.exports = router;
