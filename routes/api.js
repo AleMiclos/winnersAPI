@@ -34,23 +34,29 @@ router.get('/leaderboard/:gameName', async (req, res) => {
     try {
         const { gameName } = req.params;
 
-        // Define a ordem da pontuação com base no nome do jogo
-        // Para o Teste de Reação, uma pontuação MENOR é melhor.
-        const sortOrder = (gameName === 'Teste de Reação') ? 1 : -1;
+        // Lógica de ordenação dinâmica
+        let sortField = 'score';
+        let sortOrder = -1; // Padrão: pontuação maior é melhor
+
+        if (gameName === 'Teste de Reação') {
+            sortOrder = 1; // Pontuação menor (tempo) é melhor
+        } else if (gameName === 'Nave Espacial') {
+            sortField = 'timePlayed'; // Para a Nave, o tempo de sobrevivência é o critério
+        }
 
         const leaderboard = await GameData.find({ gameName: gameName })
-            .sort({ score: sortOrder })
-            .limit(10)
-            .select('playerName score createdAt'); // Seleciona apenas os campos que queremos mostrar
+            .sort({ [sortField]: sortOrder }) // Usa o campo e a ordem corretos para cada jogo
+            .limit(50)
+            .select('playerName score timePlayed'); // IMPORTANTE: Inclui 'timePlayed' nos dados retornados
 
         res.status(200).json(leaderboard);
 
-    } catch (error)
-    {
+    } catch (error) {
         console.error("Erro ao buscar leaderboard:", error);
         res.status(500).json({ message: 'Erro no servidor ao buscar o leaderboard.' });
     }
 });
+
 
 router.get('/stats', async (req, res) => {
     try {
